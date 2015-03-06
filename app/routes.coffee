@@ -8,7 +8,7 @@ class Router
   register: =>
     @app.get  '/', (request, response) => response.status(200).send status: 'online'
 
-    @app.get '/login', @storeCallbackUrl, passport.authenticate 'facebook', scope: ['profile', 'email']
+    @app.get '/login', @storeCallbackUrl, passport.authenticate 'facebook', scope: ['public_profile', 'email']
 
     @app.get '/oauthcallback', passport.authenticate('facebook', { failureRedirect: '/login' }), @afterPassportLogin
 
