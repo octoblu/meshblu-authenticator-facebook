@@ -27,8 +27,8 @@ class Router
     response.render 'index'
 
   storeCallbackUrl: (request, response, next) =>
-    if request.query.callbackUrl?
-      response.cookie 'callbackUrl', request.query.callbackUrl, maxAge: 60 * 60 * 1000
+    if request.query.callback?
+      response.cookie 'callbackUrl', request.query.callback, maxAge: 60 * 60 * 1000
     else
       response.cookie 'callbackUrl', null, maxAge: -1
     next()
