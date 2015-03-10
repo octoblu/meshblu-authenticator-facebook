@@ -10,3 +10,11 @@ deploy:
   app-id: 8236d412-632a-42ed-bc13-2b4e6186e98e
   on:
     branch: master
+deploy:
+  provider: opsworks
+  access_key_id: AKIAIT4X4NDGM2WVL6VA
+  secret_access_key:
+    secure: Dw/aiCTHlZU1oYkSTsmI21iCJgqWezsUjqlIEQdH4Pediewed6Zeljox6OCoAbAQLouyjx6ZNRnBJGyiczWW3PwsaVO119PL3r5dKb38/0wgAhjIPecx1LyJk5sJc3Lq6F8NM5OevX9LlBoIthODu9VI36Me6A18jymvxJWUsbs=
+  app-id: 0de2fc0f-30eb-4064-be56-fe6f4f1b6ea3
+  on:
+    branch: staging
