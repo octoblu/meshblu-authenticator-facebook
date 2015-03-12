@@ -45,9 +45,9 @@ catch
   meshbluJSON =
     uuid:   process.env.MESHBLU_FACEBOOK_AUTHENTICATOR_UUID
     token:  process.env.MESHBLU_FACEBOOK_AUTHENTICATOR_TOKEN
-    name:   process.env.MESHBLU_FACEBOOK_AUTHENTICATOR_NAME
     server: process.env.MESHBLU_HOST
     port:   process.env.MESHBLU_PORT
+    name:   'Facebook Authenticator'
 
 
 meshbluConn = meshblu.createConnection meshbluJSON
