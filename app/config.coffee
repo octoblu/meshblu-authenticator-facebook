@@ -36,7 +36,6 @@ class FacebookConfig
       getDeviceToken createdDevice?.uuid
 
     deviceFindCallback = (error, foundDevice) =>
-      return done error if error?
       return getDeviceToken foundDevice.uuid if foundDevice?
       deviceModel.create query, device, profileId, fakeSecret, deviceCreateCallback
 
