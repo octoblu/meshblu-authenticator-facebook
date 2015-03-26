@@ -17,7 +17,8 @@ class Router
     response.cookie 'callbackUrl', null, maxAge: -1
     return response.status(401).send(new Error 'Invalid User') unless request.user
     return response.status(201).send(request.user) unless callbackUrl?
-    uriParams = url.parse callbackUrl
+    uriParams = url.parse callbackUrl, true
+    delete uriParams.search
     uriParams.query ?= {}
     uriParams.query.uuid = request.user.uuid
     uriParams.query.token = request.user.token
