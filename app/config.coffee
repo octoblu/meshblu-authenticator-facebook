@@ -1,7 +1,6 @@
 passport = require 'passport'
 FacebookStrategy = require('passport-facebook').Strategy
 {DeviceAuthenticator} = require 'meshblu-authenticator-core'
-MeshbluDB = require 'meshblu-db'
 debug = require('debug')('meshblu-facebook-authenticator:config')
 
 facebookOauthConfig =
@@ -11,15 +10,14 @@ facebookOauthConfig =
   passReqToCallback: true
 
 class FacebookConfig
-  constructor: (@meshbluConn, @meshbluJSON) ->
-    @meshbludb = new MeshbluDB @meshbluConn
+  constructor: (@meshbludb, @meshbluJSON) ->
 
   onAuthentication: (request, accessToken, refreshToken, profile, done) =>
     profileId = profile?.id
     fakeSecret = 'facebook-authenticator'
     authenticatorUuid = @meshbluJSON.uuid
     authenticatorName = @meshbluJSON.name
-    deviceModel = new DeviceAuthenticator authenticatorUuid, authenticatorName, meshblu: @meshbluConn, meshbludb: @meshbludb
+    deviceModel = new DeviceAuthenticator authenticatorUuid, authenticatorName, meshbludb: @meshbludb
     query = {}
     query[authenticatorUuid + '.id'] = profileId
     device =
@@ -27,7 +25,7 @@ class FacebookConfig
       type: 'octoblu:user'
 
     getDeviceToken = (uuid) =>
-      @meshbluConn.generateAndStoreToken uuid: uuid, (device) =>
+      @meshbludb.generateAndStoreToken uuid, (device) =>
         device.id = profileId
         done null, device
 

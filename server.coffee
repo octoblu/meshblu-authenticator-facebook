@@ -7,7 +7,7 @@ session = require 'cookie-session'
 passport = require 'passport'
 Router = require './app/routes'
 Config = require './app/config'
-meshblu = require 'meshblu'
+MeshbluDB = require 'meshblu-db'
 airbrake = require('airbrake').createClient process.env.AIRBRAKE_API_KEY
 debug = require('debug')('meshblu-facebook-authenticator:server')
 
@@ -51,26 +51,17 @@ catch
     port:   process.env.MESHBLU_PORT
     name:   'Facebook Authenticator'
 
-
 meshbluConn = meshblu.createConnection meshbluJSON
 
-meshbluConn.on 'ready', =>
-  debug 'Connected to meshblu'
+meshbludb.findOne uuid: meshbluJSON.uuid, (error, device) ->
+  meshbludb.setPrivateKey(device.privateKey) unless meshbludb.privateKey
 
-  meshbluConn.whoami {}, (device) ->
-    meshbluConn.setPrivateKey(device.privateKey) unless meshbluConn.privateKey
+config = new Config meshbludb, meshbluJSON
+config.register()
 
-  app.listen port, =>
-    debug "Meshblu Facebook Authenticator..."
-    debug "Listening at localhost:#{port}"
+router = new Router app
+router.register()
 
-    config = new Config meshbluConn, meshbluJSON
-    config.register()
-
-    router = new Router app
-    router.register()
-
-meshbluConn.on 'notReady', =>
-  debug 'Unable to connect to meshblu'
-
-
+app.listen port, =>
+  debug "Meshblu Facebook Authenticator..."
+  debug "Listening at localhost:#{port}"
