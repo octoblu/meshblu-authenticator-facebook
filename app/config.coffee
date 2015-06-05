@@ -25,7 +25,7 @@ class FacebookConfig
       type: 'octoblu:user'
 
     getDeviceToken = (uuid) =>
-      @meshbludb.generateAndStoreToken uuid, (device) =>
+      @meshbludb.generateAndStoreToken uuid, (error, device) =>
         device.id = profileId
         done null, device
 
