@@ -51,7 +51,7 @@ catch
     port:   process.env.MESHBLU_PORT
     name:   'Facebook Authenticator'
 
-meshbluConn = meshblu.createConnection meshbluJSON
+meshbludb = new MeshbluDB meshbluJSON
 
 meshbludb.findOne uuid: meshbluJSON.uuid, (error, device) ->
   meshbludb.setPrivateKey(device.privateKey) unless meshbludb.privateKey
