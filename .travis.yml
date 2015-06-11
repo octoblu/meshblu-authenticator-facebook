@@ -8,7 +8,7 @@ node_js:
 - '0.10'
 env:
   global:
-  - AWS_ACCESS_KEY_ID=AKIAIT4X4NDGM2WVL6VA
+  - AWS_ACCESS_KEY_ID=AKIAJH2D5IPIRHYJT5IA
   - DOCKER_USERNAME=octoblu
   - DEPLOY_APPLICATION_NAME=meshblu-facebook-authenticator
   - DEPLOY_REGION=us-west-2
@@ -27,20 +27,21 @@ env:
   - secure: uRgX6lJSXd1eJ5dHDyN4QhJGKCZUVl88MfyyAdLdSPlDUDP2X7UvRMtEue7yX16Fjtkdh6Hda+Zxuo9ar7J1DtsAUzOfasbSVpO/bxdZhKqXizRGC2KFmxcIrVmNMzL56MQ/WPQSzHdh2+0oBXXdsUK+tDbFjA0ApSbiNvc7Xu4=
   - secure: eVxfuR23P7FMMzds4zwW9FB0eIj6gLq5Ry92EizmlFcWMrmt3hbrv6FhB5+ILa6jotzFSeZRXfXZ3dVOVaUCCu3vhUNOJXtLIZ78boSWp06IrM4RFOJKPLhHwLRMN0em/5NpsDX9Ff9uWYA1lZa01/BCP/nnKo68plFEKsAIF58=
   - secure: wSPVcMYm/VKK8bSpOx6lWkJQMFyzDZ+YdtH18ZRvO7TkbIhnb7Noc4Ar63pmceOCMzru2MYMlIZXoxP72kIdHzCVrym1bTy6C2E1d38/7Sxt0S6/DNmSUHMSfHft5UmEwT6NjOxZA8fIF0S+8wVXBW2cWqvd2dVtWPMXgp8mABs=
+  - secure: EiokJXKoFrT1hA3kkcgL16WIdGmS2/olhwyAInFFB6eNQGMIIGDrTGDQKL8sNLsmxiCFxNLPVvd58xdbSPkNyQofbBAOrOA+7+O2eQh0qEsRqAW6OPOIZxDTOED2/+trCeVX3k/RnjTLP/h5O45E+gCpufgdOkxrz4eG6kC4jaI=
 after_success:
 - .kubernetes/travis_after_success
 deploy:
 - provider: s3
-  access_key_id: AKIAIT4X4NDGM2WVL6VA
+  access_key_id: AKIAJH2D5IPIRHYJT5IA
   secret_access_key: &1
-    secure: XsZKjBj6FZCEKVxNwqZ16GnNpNJhnAiQb1E7wT4ztEwDRJBSgWFoLs5aGacLCoB4GOxQ2wRKxB+wqPJtrjpPRUcnm+Nu2i5BOYqNn2ws8up5foBIVOtoGfnaQ4NQq1iUMliVJjL1oIeCmUxglidumr9UPyzoqYGiXAE+SnIqo6s=
+    secure: "cIvbksjzizHPccatbQoYyixy56HChRpGNSspRo8Iqm6ixJ5FJzHg8qKVCwef47AqvHQCObLPMyFm9ue/J3wOr3xKriFF3PJxLEBqRvRMp5mypjnYKN0SGWo0LIK3FjbserCvPnHTwKgXl91NngnBM/kmPOBoD29LiTVU8K3Rp64="
   local_dir: dpl_cd_upload
   skip_cleanup: true
   bucket: octoblu-deploy
   on:
     branch: staging
 - provider: codedeploy
-  access_key_id: AKIAIT4X4NDGM2WVL6VA
+  access_key_id: AKIAJH2D5IPIRHYJT5IA
   secret_access_key: *1
   bucket: octoblu-deploy
   key: docker-builder/meshblu-facebook-authenticator-$TRAVIS_COMMIT.zip
