@@ -10,14 +10,14 @@ facebookOauthConfig =
   passReqToCallback: true
 
 class FacebookConfig
-  constructor: (@meshbludb, @meshbluJSON) ->
+  constructor: ({@meshbluHttp, @meshbluJSON}) ->
 
   onAuthentication: (request, accessToken, refreshToken, profile, done) =>
     profileId = profile?.id
     fakeSecret = 'facebook-authenticator'
     authenticatorUuid = @meshbluJSON.uuid
     authenticatorName = @meshbluJSON.name
-    deviceModel = new DeviceAuthenticator authenticatorUuid, authenticatorName, meshbludb: @meshbludb
+    deviceModel = new DeviceAuthenticator {authenticatorUuid, authenticatorName, @meshbluHttp}
     query = {}
     query[authenticatorUuid + '.id'] = profileId
     device =
@@ -25,7 +25,7 @@ class FacebookConfig
       type: 'octoblu:user'
 
     getDeviceToken = (uuid) =>
-      @meshbludb.generateAndStoreToken uuid, (error, device) =>
+      @meshbluHttp.generateAndStoreToken uuid, (error, device) =>
         device.id = profileId
         done null, device
 
@@ -35,9 +35,14 @@ class FacebookConfig
 
     deviceFindCallback = (error, foundDevice) =>
       return getDeviceToken foundDevice.uuid if foundDevice?
-      deviceModel.create query, device, profileId, fakeSecret, deviceCreateCallback
+      deviceModel.create
+        query: query
+        data: device
+        user_id: profileId
+        secret: fakeSecret
+      , deviceCreateCallback
 
-    deviceModel.findVerified query, fakeSecret, deviceFindCallback
+    deviceModel.findVerified query: query, password: fakeSecret, deviceFindCallback
 
   register: =>
     passport.use new FacebookStrategy facebookOauthConfig, @onAuthentication
