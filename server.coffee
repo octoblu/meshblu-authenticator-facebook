@@ -15,9 +15,9 @@ debug = require('debug')('meshblu-facebook-authenticator:server')
 port = process.env.MESHBLU_FACEBOOK_AUTHENTICATOR_PORT ? 80
 
 app = express()
+app.use meshbluHealthcheck()
 app.use morgan('dev')
 app.use errorHandler()
-app.use meshbluHealthcheck()
 app.use airbrake.expressHandler()
 app.use bodyParser.json()
 app.use bodyParser.urlencoded(extended: true)
@@ -71,3 +71,7 @@ router.register()
 app.listen port, =>
   debug "Meshblu Facebook Authenticator..."
   debug "Listening at localhost:#{port}"
+
+process.on 'SIGTERM', =>
+  console.log 'SIGTERM caught, exiting'
+  process.exit 0
