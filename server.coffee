@@ -1,25 +1,26 @@
-bodyParser         = require 'body-parser'
-cookieParser       = require 'cookie-parser'
 express            = require 'express'
+sendError          = require 'express-send-error'
 meshbluHealthcheck = require 'express-meshblu-healthcheck'
-MeshbluHttp        = require 'meshblu-http'
-morgan             = require 'morgan'
-OctobluRaven       = require 'octoblu-raven'
 packageVersion     = require 'express-package-version'
-passport           = require 'passport'
 session            = require 'cookie-session'
-
-Router = require './app/routes'
-Config = require './app/config'
-debug  = require('debug')('meshblu-facebook-authenticator:server')
+cookieParser       = require 'cookie-parser'
+OctobluRaven       = require 'octoblu-raven'
+MeshbluHttp        = require 'meshblu-http'
+bodyParser         = require 'body-parser'
+passport           = require 'passport'
+morgan             = require 'morgan'
+Router             = require './app/routes'
+Config             = require './app/config'
+debug              = require('debug')('meshblu-facebook-authenticator:server')
 
 port = process.env.MESHBLU_FACEBOOK_AUTHENTICATOR_PORT ? 80
 
-ravenExpress = new OctobluRaven().express()
+octobluRaven = new OctobluRaven()
+octobluRaven.patchGlobal()
 
 app = express()
-app.use ravenExpress.requestHandler()
-app.use ravenExpress.errorHandler()
+app.use octobluRaven.express().handleErrors()
+app.use sendError()
 
 app.use meshbluHealthcheck()
 app.use packageVersion()
