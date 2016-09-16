@@ -7,3 +7,5 @@
 [![Slack Status](http://community-slack.octoblu.com/badge.svg)](http://community-slack.octoblu.com)
 
 [![NPM](https://nodei.co/npm/meshblu-authenticator-facebook.svg?style=flat)](https://npmjs.org/package/meshblu-authenticator-facebook)
+[![Dependency status](http://img.shields.io/david/octoblu/meshblu-authenticator-facebook.svg?style=flat)](https://david-dm.org/octoblu/meshblu-authenticator-facebook)
+
